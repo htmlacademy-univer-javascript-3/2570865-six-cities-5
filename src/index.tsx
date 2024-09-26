@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {App} from './components/app/app.tsx';
 
-const Setting = {
+export const Setting = {
   OffersAmount: 123
 } as const;
 
