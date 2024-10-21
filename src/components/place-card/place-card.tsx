@@ -1,20 +1,29 @@
+import {Link} from 'react-router-dom';
+
 type PlaceCardProps = {
-  name: string;
+  id: string;
+  title: string;
   type: string;
   imageSrc: string;
   price: number;
   isPremium: boolean;
+  onMouseEnter: (id: string) => void;
 }
 
-export function PlaceCard({name, type, imageSrc, price, isPremium}: PlaceCardProps) {
+export function PlaceCard({id, title, type, imageSrc, price, isPremium, onMouseEnter}: PlaceCardProps) {
   return (
-    <article className="cities__card place-card">
+    <article
+      className="cities__card place-card"
+      onMouseEnter={() => onMouseEnter(id)}
+    >
       <div className="place-card__mark">
         <span>{isPremium && 'Premium'}</span>
       </div>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
-          <img className="place-card__image" src={imageSrc} width="260" height="200"
+          <img
+            className="place-card__image"
+            src={imageSrc} width="260" height="200"
             alt="Place image"
           />
         </a>
@@ -39,7 +48,9 @@ export function PlaceCard({name, type, imageSrc, price, isPremium}: PlaceCardPro
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{name}</a>
+          <Link to={`/offer/${id}`}>
+            {title}
+          </Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
