@@ -7,7 +7,7 @@ type OffersListProps = {
 };
 
 export function OffersList({offers}: OffersListProps) {
-  const [activeOfferId, setActiveOfferId] = useState('');
+  const [, setActiveOfferId] = useState('');
 
   function handleMouseEnter(id: string) {
     setActiveOfferId(id);

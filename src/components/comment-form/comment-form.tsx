@@ -1,7 +1,7 @@
 import {ChangeEvent, useState} from 'react';
 
 export function CommentForm() {
-  const [stars, setStars] = useState('1');
+  const [, setStars] = useState('1');
   const [comment, setComment] = useState('');
 
   function handleOnChangeComment(event: ChangeEvent<HTMLTextAreaElement>) {
