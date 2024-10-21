@@ -6,18 +6,23 @@ import {OfferScreen} from '../../pages/offer-screen/offer-screen.tsx';
 import {AppRoute, AuthorizationStatus} from '../../consts.ts';
 import {PrivateRoute} from '../private-route/private-route.tsx';
 import {FavoritesScreen} from '../../pages/favorites-screen/favorites-screen.tsx';
+import {Offer} from '../../types/offer.ts';
 
 type AppScreenProps = {
-  offersAmount: number;
-}
+  offers: Offer[];
+};
 
-export function App({offersAmount}: AppScreenProps) {
+export function App({offers}: AppScreenProps) {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<MainScreen offersAmount={offersAmount}/>}
+          element={
+            <MainScreen
+              offers={offers}
+            />
+          }
         />
 
         <Route
@@ -31,7 +36,7 @@ export function App({offersAmount}: AppScreenProps) {
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.NoAuth}
             >
-              <FavoritesScreen/>
+              <FavoritesScreen offers={offers}/>
             </PrivateRoute>
           }
         />
