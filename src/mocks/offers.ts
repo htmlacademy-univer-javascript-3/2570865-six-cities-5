@@ -55,7 +55,7 @@ export const offers: Offer[] = [
     'type': 'apartment',
     'price': 9120,
     'city': {
-      'name': 'Novosibirsk',
+      'name': 'Amsterdam',
       'location': {
         'latitude': 59.35514938496378,
         'longitude': 14.673877537499948,
