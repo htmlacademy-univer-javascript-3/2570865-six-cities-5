@@ -1,15 +1,11 @@
 import {ChangeEvent, useState} from 'react';
 
 export function CommentForm() {
-  const [, setStars] = useState('1');
-  const [comment, setComment] = useState('');
+  const [formData, setFormData] = useState({rating: 0, review: ''});
 
-  function handleOnChangeComment(event: ChangeEvent<HTMLTextAreaElement>) {
-    setComment(event.target.value);
-  }
-
-  function handleOnChangeStars(event: ChangeEvent<HTMLInputElement>) {
-    setStars(event.target.value);
+  function handleOnChangeForm(event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+    const {name, value} = event.currentTarget;
+    setFormData({...formData, [name]: value});
   }
 
   return (
@@ -19,7 +15,6 @@ export function CommentForm() {
       </label>
       <div
         className="reviews__rating-form form__rating"
-        onChange={handleOnChangeStars}
       >
         <input
           className="form__rating-input visually-hidden"
@@ -27,6 +22,7 @@ export function CommentForm() {
           defaultValue={5}
           id="5-stars"
           type="radio"
+          onChange={handleOnChangeForm}
         />
         <label
           htmlFor="5-stars"
@@ -43,6 +39,7 @@ export function CommentForm() {
           defaultValue={4}
           id="4-stars"
           type="radio"
+          onChange={handleOnChangeForm}
         />
         <label
           htmlFor="4-stars"
@@ -59,6 +56,7 @@ export function CommentForm() {
           defaultValue={3}
           id="3-stars"
           type="radio"
+          onChange={handleOnChangeForm}
         />
         <label
           htmlFor="3-stars"
@@ -75,6 +73,7 @@ export function CommentForm() {
           defaultValue={2}
           id="2-stars"
           type="radio"
+          onChange={handleOnChangeForm}
         />
         <label
           htmlFor="2-stars"
@@ -91,6 +90,7 @@ export function CommentForm() {
           defaultValue={1}
           id="1-star"
           type="radio"
+          onChange={handleOnChangeForm}
         />
         <label
           htmlFor="1-star"
@@ -107,8 +107,8 @@ export function CommentForm() {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={handleOnChangeComment}
-        value={comment}
+        onChange={handleOnChangeForm}
+        value={formData.review}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
