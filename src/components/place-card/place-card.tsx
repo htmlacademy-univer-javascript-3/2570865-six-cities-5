@@ -8,13 +8,15 @@ type PlaceCardProps = {
   price: number;
   isPremium: boolean;
   onMouseEnter: (id: string) => void;
+  onMouseLeave: (id: string) => void;
 }
 
-export function PlaceCard({id, title, type, imageSrc, price, isPremium, onMouseEnter}: PlaceCardProps) {
+export function PlaceCard({id, title, type, imageSrc, price, isPremium, onMouseEnter, onMouseLeave}: PlaceCardProps) {
   return (
     <article
       className="cities__card place-card"
       onMouseEnter={() => onMouseEnter(id)}
+      onMouseLeave={() => onMouseLeave(id)}
     >
       <div className="place-card__mark">
         <span>{isPremium && 'Premium'}</span>

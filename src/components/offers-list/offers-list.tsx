@@ -1,16 +1,21 @@
 import {Offer} from '../../types/offer.ts';
 import {PlaceCard} from '../place-card/place-card.tsx';
 import {useState} from 'react';
+import {Nullable} from 'vitest';
 
 type OffersListProps = {
   offers: Offer[];
 };
 
 export function OffersList({offers}: OffersListProps) {
-  const [, setActiveOfferId] = useState('');
+  const [, setActiveOfferId] = useState<Nullable<string>>('');
 
   function handleMouseEnter(id: string) {
     setActiveOfferId(id);
+  }
+
+  function handleMouseLeave() {
+    setActiveOfferId(null);
   }
 
   return (
@@ -27,6 +32,7 @@ export function OffersList({offers}: OffersListProps) {
               imageSrc={offer.previewImage}
               price={offer.price}
               onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
             />)
           )
       }
