@@ -22,7 +22,7 @@ export const offers: Offer[] = [
     'isFavorite': true,
     'isPremium': true,
     'rating': 1,
-    'previewImage': 'https://url-to-image/image.png'
+    'previewImage': './img/amsterdam.jpg'
   },
 
   {
@@ -46,7 +46,7 @@ export const offers: Offer[] = [
     'isFavorite': false,
     'isPremium': false,
     'rating': 3,
-    'previewImage': 'https://url-to-image/image.png'
+    'previewImage': './img/amsterdam.jpg'
   },
 
   {
@@ -70,7 +70,7 @@ export const offers: Offer[] = [
     'isFavorite': true,
     'isPremium': false,
     'rating': 4,
-    'previewImage': 'https://url-to-image/image.png'
+    'previewImage': './img/amsterdam.jpg'
   },
 
   {
@@ -94,6 +94,6 @@ export const offers: Offer[] = [
     'isFavorite': false,
     'isPremium': true,
     'rating': 5,
-    'previewImage': 'https://url-to-image/image.png'
+    'previewImage': './img/amsterdam.jpg'
   }
 ];

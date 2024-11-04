@@ -18,9 +18,11 @@ export function PlaceCard({id, title, type, imageSrc, price, isPremium, onMouseE
       onMouseEnter={() => onMouseEnter(id)}
       onMouseLeave={() => onMouseLeave(id)}
     >
-      <div className="place-card__mark">
-        <span>{isPremium && 'Premium'}</span>
-      </div>
+      {isPremium &&
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>}
+
       <div className="cities__image-wrapper place-card__image-wrapper">
         <a href="#">
           <img
