@@ -13,11 +13,7 @@ export type Offer = {
 
 export type City = {
   name: string;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
+  location: Location;
 };
 
 export type Location = {
