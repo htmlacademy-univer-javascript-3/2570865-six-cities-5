@@ -1,21 +1,19 @@
 import {Offer} from '../../types/offer.ts';
 import {PlaceCard} from '../place-card/place-card.tsx';
-import {useState} from 'react';
 import {Nullable} from 'vitest';
 
 type OffersListProps = {
   offers: Offer[];
+  onActiveOfferChange: (id: Nullable<string>) => void;
 };
 
-export function OffersList({offers}: OffersListProps) {
-  const [, setActiveOfferId] = useState<Nullable<string>>('');
-
+export function OffersList({offers, onActiveOfferChange}: OffersListProps) {
   function handleMouseEnter(id: string) {
-    setActiveOfferId(id);
+    onActiveOfferChange(id);
   }
 
   function handleMouseLeave() {
-    setActiveOfferId(null);
+    onActiveOfferChange(null);
   }
 
   return (

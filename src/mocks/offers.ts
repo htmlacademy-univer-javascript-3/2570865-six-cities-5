@@ -11,13 +11,13 @@ export const offers: Offer[] = [
       'location': {
         'latitude': 52.35514938496378,
         'longitude': 4.673877537499948,
-        'zoom': 8
+        'zoom': 10
       }
     },
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
-      'zoom': 8
+      'latitude': 52.3909553943508,
+      'longitude': 4.85309666406198,
+      'zoom': 4
     },
     'isFavorite': true,
     'isPremium': true,
@@ -31,17 +31,17 @@ export const offers: Offer[] = [
     'type': 'apartment',
     'price': 1230,
     'city': {
-      'name': 'Moscow',
+      'name': 'Amsterdam',
       'location': {
-        'latitude': 2.35514938496378,
-        'longitude': 42.673877537499948,
-        'zoom': 8
+        'latitude': 52.35514938496378,
+        'longitude': 4.673877537499948,
+        'zoom': 4
       }
     },
     'location': {
-      'latitude': 58.35514938496378,
-      'longitude': 9.673877537499948,
-      'zoom': 8
+      'latitude': 52.3609553943508,
+      'longitude': 4.85309666406198,
+      'zoom': 4
     },
     'isFavorite': false,
     'isPremium': false,
@@ -57,15 +57,15 @@ export const offers: Offer[] = [
     'city': {
       'name': 'Amsterdam',
       'location': {
-        'latitude': 59.35514938496378,
-        'longitude': 14.673877537499948,
-        'zoom': 8
+        'latitude': 52.35514938496378,
+        'longitude': 4.673877537499948,
+        'zoom': 4
       }
     },
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
-      'zoom': 8
+      'latitude': 52.3909553943508,
+      'longitude': 4.929309666406198,
+      'zoom': 4
     },
     'isFavorite': true,
     'isPremium': false,
@@ -79,17 +79,17 @@ export const offers: Offer[] = [
     'type': 'apartment',
     'price': 1120,
     'city': {
-      'name': 'Tolyatti',
+      'name': 'Amsterdam',
       'location': {
         'latitude': 52.35514938496378,
         'longitude': 4.673877537499948,
-        'zoom': 8
+        'zoom': 4
       }
     },
     'location': {
-      'latitude': 52.35514938496378,
-      'longitude': 4.673877537499948,
-      'zoom': 8
+      'latitude': 52.3809553943508,
+      'longitude': 4.939309666406198,
+      'zoom': 4
     },
     'isFavorite': false,
     'isPremium': true,

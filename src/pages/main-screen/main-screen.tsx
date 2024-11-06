@@ -1,11 +1,21 @@
 import {Offer} from '../../types/offer.ts';
 import {OffersList} from '../../components/offers-list/offers-list.tsx';
+import {Map} from '../../components/map/map.tsx';
+import {useState} from 'react';
+import {Nullable} from 'vitest';
 
 type MainScreenProps = {
   offers: Offer[];
 };
 
 export function MainScreen({offers}: MainScreenProps) {
+  const [activeOffer, setActiveOffer] = useState<Nullable<Offer>>(null);
+
+  function handleActiveOfferChange(id: Nullable<string>) {
+    const newActiveOffer = offers.find((offer) => offer.id === id);
+    setActiveOffer(newActiveOffer);
+  }
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -94,10 +104,19 @@ export function MainScreen({offers}: MainScreenProps) {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <OffersList offers={offers}/>
+              <OffersList
+                offers={offers}
+                onActiveOfferChange={handleActiveOfferChange}
+              />
             </section>
+
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                city={offers[0].city}
+                activeOffer={activeOffer}
+                offers={offers}
+                className="cities__map map"
+              />
             </div>
           </div>
         </div>
