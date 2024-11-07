@@ -26,7 +26,7 @@ export const OFFERS: Offer[] = [
   },
 
   {
-    'id': '2',
+    'id': '1',
     'title': 'Beautiful & luxurious studio at great location',
     'type': 'apartment',
     'price': 1230,
@@ -50,7 +50,7 @@ export const OFFERS: Offer[] = [
   },
 
   {
-    'id': '3',
+    'id': '2',
     'title': 'Beautiful & luxurious studio at great location',
     'type': 'apartment',
     'price': 9120,
@@ -74,7 +74,7 @@ export const OFFERS: Offer[] = [
   },
 
   {
-    'id': '4',
+    'id': '3',
     'title': 'Beautiful & luxurious studio at great location',
     'type': 'apartment',
     'price': 1120,
