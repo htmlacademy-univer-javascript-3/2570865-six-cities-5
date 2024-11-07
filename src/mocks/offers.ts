@@ -1,8 +1,8 @@
 import {Offer} from '../types/offer.ts';
 
-export const offers: Offer[] = [
+export const OFFERS: Offer[] = [
   {
-    'id': '1',
+    'id': '6af6f711-c28d-4121-82cd-e0b462a27f00',
     'title': 'Good apartment 1',
     'type': 'apartment',
     'price': 120123,
@@ -17,7 +17,7 @@ export const offers: Offer[] = [
     'location': {
       'latitude': 52.3909553943508,
       'longitude': 4.85309666406198,
-      'zoom': 4
+      'zoom': 10
     },
     'isFavorite': true,
     'isPremium': true,
@@ -35,13 +35,13 @@ export const offers: Offer[] = [
       'location': {
         'latitude': 52.35514938496378,
         'longitude': 4.673877537499948,
-        'zoom': 4
+        'zoom': 10
       }
     },
     'location': {
       'latitude': 52.3609553943508,
       'longitude': 4.85309666406198,
-      'zoom': 4
+      'zoom': 10
     },
     'isFavorite': false,
     'isPremium': false,
@@ -59,13 +59,13 @@ export const offers: Offer[] = [
       'location': {
         'latitude': 52.35514938496378,
         'longitude': 4.673877537499948,
-        'zoom': 4
+        'zoom': 10
       }
     },
     'location': {
       'latitude': 52.3909553943508,
       'longitude': 4.929309666406198,
-      'zoom': 4
+      'zoom': 10
     },
     'isFavorite': true,
     'isPremium': false,
@@ -83,13 +83,13 @@ export const offers: Offer[] = [
       'location': {
         'latitude': 52.35514938496378,
         'longitude': 4.673877537499948,
-        'zoom': 4
+        'zoom': 10
       }
     },
     'location': {
       'latitude': 52.3809553943508,
       'longitude': 4.939309666406198,
-      'zoom': 4
+      'zoom': 10
     },
     'isFavorite': false,
     'isPremium': true,
