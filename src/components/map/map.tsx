@@ -1,9 +1,10 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {City, Offer} from '../../types/offer.ts';
+import {Offer} from '../../types/offer.ts';
 import {useEffect, useRef} from 'react';
 import {useMap} from './use-map.ts';
 import {Nullable} from 'vitest';
+import {City} from '../../types/city.ts';
 
 type MapProps = {
   city: City;

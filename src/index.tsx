@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {App} from './components/app/app.tsx';
-import {offers} from './mocks/offers.ts';
+import {OFFERS} from './mocks/offers.ts';
 
 export const Setting = {
-  Offers: offers,
+  Offers: OFFERS,
 } as const;
 
 const root = ReactDOM.createRoot(

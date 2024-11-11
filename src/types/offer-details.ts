@@ -1,6 +1,6 @@
 import {City, Location} from './city.ts';
 
-export type Offer = {
+export type OfferDetails = {
   id: string;
   title: string;
   type: string;
@@ -10,6 +10,14 @@ export type Offer = {
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
-  previewImage: string;
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: {
+    name: string;
+    avatarUrl: string;
+    isPro: boolean;
+  };
+  images: string[];
+  maxAdults: number;
 }
-
