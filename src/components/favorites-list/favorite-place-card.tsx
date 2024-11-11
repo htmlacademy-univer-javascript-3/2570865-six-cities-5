@@ -10,7 +10,7 @@ type PlaceCardFavoriteProps = {
   isPremium: boolean;
 }
 
-export function PlaceCardFavorite({id, title, type, imageSrc, price, isPremium}: PlaceCardFavoriteProps) {
+export function FavoritePlaceCard({id, title, type, imageSrc, price, isPremium}: PlaceCardFavoriteProps) {
   const offerUrl = AppRoute.Offer.replace(':id', id);
 
   return (
@@ -21,14 +21,14 @@ export function PlaceCardFavorite({id, title, type, imageSrc, price, isPremium}:
         </div>}
 
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={offerUrl}>
           <img
             className="place-card__image"
             src={imageSrc}
             width="150" height="110"
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
 
       <div className="favorites__card-info place-card__info">

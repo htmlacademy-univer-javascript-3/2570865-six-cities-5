@@ -1,11 +1,11 @@
 import {Offer} from '../../types/offer.ts';
-import {PlaceCardFavorite} from '../place-card/place-card-favorite.tsx';
+import {FavoritePlaceCard} from './favorite-place-card.tsx';
 
 type FavoritesListProps = {
   offers: Offer[];
 }
 
-export function FavoritesList({offers}: FavoritesListProps) {
+export function FavoritePlaceCardList({offers}: FavoritesListProps) {
   const cities = Array.from(new Set(offers.map((offer) => offer.city.name))).toSorted();
 
   return (
@@ -28,7 +28,7 @@ export function FavoritesList({offers}: FavoritesListProps) {
                   offers
                     .filter((offer) => offer.city.name === city)
                     .map((offer) => (
-                      <PlaceCardFavorite
+                      <FavoritePlaceCard
                         key={offer.id}
                         {...offer}
                         imageSrc={offer.previewImage}

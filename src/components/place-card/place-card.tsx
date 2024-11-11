@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../consts.ts';
+import {AppRoute, PlaceCardType} from '../../consts.ts';
+import {Nullable} from 'vitest';
 
 type PlaceCardProps = {
   id: string;
@@ -8,18 +9,39 @@ type PlaceCardProps = {
   imageSrc: string;
   price: number;
   isPremium: boolean;
-  onMouseEnter: (id: string) => void;
-  onMouseLeave: (id: string) => void;
+  width: number;
+  height: number;
+  onActiveItemChange?: (id: Nullable<string>) => void;
+  placeCardType: PlaceCardType;
 }
 
-export function PlaceCard({id, title, type, imageSrc, price, isPremium, onMouseEnter, onMouseLeave}: PlaceCardProps) {
+export function PlaceCard({
+  id,
+  title,
+  type,
+  imageSrc,
+  price,
+  isPremium,
+  width,
+  height,
+  onActiveItemChange,
+  placeCardType,
+}: PlaceCardProps) {
   const offerUrl = AppRoute.Offer.replace(':id', id);
+
+  let classNamePrefix: string = '';
+
+  if (placeCardType === PlaceCardType.City) {
+    classNamePrefix = 'cities';
+  } else if (placeCardType === PlaceCardType.Near) {
+    classNamePrefix = 'near-places';
+  }
 
   return (
     <article
-      className="cities__card place-card"
-      onMouseEnter={() => onMouseEnter(id)}
-      onMouseLeave={() => onMouseLeave(id)}
+      className={`${classNamePrefix}__card place-card`}
+      onMouseEnter={() => onActiveItemChange?.(id)}
+      onMouseLeave={() => onActiveItemChange?.(null)}
     >
       {isPremium &&
         <div className="place-card__mark">
@@ -27,11 +49,11 @@ export function PlaceCard({id, title, type, imageSrc, price, isPremium, onMouseE
         </div>}
 
       <Link to={offerUrl}>
-        <div className="cities__image-wrapper place-card__image-wrapper">
+        <div className={`${classNamePrefix}__image-wrapper place-card__image-wrapper`}>
           <a href="#">
             <img
               className="place-card__image"
-              src={imageSrc} width="260" height="200"
+              src={imageSrc} width={width} height={height}
               alt="Place image"
             />
           </a>
