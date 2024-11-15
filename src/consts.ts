@@ -15,3 +15,5 @@ export enum PlaceCardType{
   City,
   Near
 }
+
+export const CITY_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
