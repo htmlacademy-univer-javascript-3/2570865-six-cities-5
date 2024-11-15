@@ -4,16 +4,25 @@ import {useState} from 'react';
 import {Nullable} from 'vitest';
 import {Header} from '../../components/header/header.tsx';
 import {CityPlaceCardList} from '../../components/place-card/place-card-list.tsx';
+import {CitiesList} from '../../components/cities-list/cities-list.tsx';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {selectCity} from '../../store/action.ts';
 
 type MainScreenProps = {
-  offers: Offer[];
+  cityNames: string[];
 };
 
-export function MainScreen({offers}: MainScreenProps) {
+export function MainScreen({cityNames}: MainScreenProps) {
   const [activeOffer, setActiveOffer] = useState<Nullable<Offer>>(null);
+  const dispatch = useAppDispatch();
+
+  const cityName = useAppSelector((state) => state.city);
+  const offers = useAppSelector((state) => state.offers);
+
+  const currentOffers = offers.filter((offer) => offer.city.name === cityName);
 
   function handleActiveOfferChange(id: Nullable<string>) {
-    const newActiveOffer = offers.find((offer) => offer.id === id);
+    const newActiveOffer = currentOffers.find((offer) => offer.id === id);
     setActiveOffer(newActiveOffer);
   }
 
@@ -24,46 +33,17 @@ export function MainScreen({offers}: MainScreenProps) {
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
-            </ul>
-          </section>
+          <CitiesList
+            cityNames={cityNames}
+            onCityClick={(city) => dispatch(selectCity({city: city}))}
+          />
         </div>
+
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
+              <b className="places__found">{currentOffers.length} places to stay in {cityName}</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -80,16 +60,16 @@ export function MainScreen({offers}: MainScreenProps) {
                 </ul>
               </form>
               <CityPlaceCardList
-                offers={offers}
+                offers={currentOffers}
                 onActiveItemChange={handleActiveOfferChange}
               />
             </section>
 
             <div className="cities__right-section">
               <Map
-                city={offers[0].city}
+                city={currentOffers[0]?.city}
                 activeOffer={activeOffer}
-                offers={offers}
+                offers={currentOffers}
                 className="cities__map map"
               />
             </div>

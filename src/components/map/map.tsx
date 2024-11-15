@@ -2,7 +2,7 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {Offer} from '../../types/offer.ts';
 import {useEffect, useRef} from 'react';
-import {useMap} from './use-map.ts';
+import {useMap} from '../../hooks/use-map.ts';
 import {Nullable} from 'vitest';
 import {City} from '../../types/city.ts';
 

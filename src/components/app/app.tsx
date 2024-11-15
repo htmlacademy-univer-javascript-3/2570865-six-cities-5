@@ -7,12 +7,19 @@ import {AppRoute, AuthorizationStatus} from '../../consts.ts';
 import {PrivateRoute} from '../private-route/private-route.tsx';
 import {FavoritesScreen} from '../../pages/favorites-screen/favorites-screen.tsx';
 import {Offer} from '../../types/offer.ts';
+import {fillOffersList} from '../../store/action.ts';
+import {useAppDispatch} from '../../hooks';
+import {OFFERS} from '../../mocks/offers.ts';
 
 type AppScreenProps = {
   offers: Offer[];
+  cityNames: string[];
 };
 
-export function App({offers}: AppScreenProps) {
+export function App({offers, cityNames}: AppScreenProps) {
+  const dispatch = useAppDispatch();
+  dispatch(fillOffersList({offers: OFFERS}));
+
   return (
     <BrowserRouter>
       <Routes>
@@ -20,7 +27,7 @@ export function App({offers}: AppScreenProps) {
           path={AppRoute.Main}
           element={
             <MainScreen
-              offers={offers}
+              cityNames={cityNames}
             />
           }
         />
