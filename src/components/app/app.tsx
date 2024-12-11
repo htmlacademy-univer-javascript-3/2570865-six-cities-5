@@ -4,21 +4,23 @@ import {LoginScreen} from '../../pages/login-screen/login-screen.tsx';
 import {NotFoundScreen} from '../../pages/not-found-screen/not-found-screen.tsx';
 import {OfferScreen} from '../../pages/offer-screen/offer-screen.tsx';
 import {AppRoute, AuthorizationStatus} from '../../consts.ts';
-import {PrivateRoute} from '../private-route/private-route.tsx';
 import {FavoritesScreen} from '../../pages/favorites-screen/favorites-screen.tsx';
-import {Offer} from '../../types/offer.ts';
-import {fillOffersList} from '../../store/action.ts';
-import {useAppDispatch} from '../../hooks';
-import {OFFERS} from '../../mocks/offers.ts';
+import {PrivateRoute} from '../private-route/private-route.tsx';
+import {useAppSelector} from '../../hooks';
+import {Spinner} from '../spinner/spinner.tsx';
 
 type AppScreenProps = {
-  offers: Offer[];
   cityNames: string[];
 };
 
-export function App({offers, cityNames}: AppScreenProps) {
-  const dispatch = useAppDispatch();
-  dispatch(fillOffersList({offers: OFFERS}));
+export function App({cityNames}: AppScreenProps) {
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
+  if (isOffersDataLoading) {
+    return (
+      <Spinner/>
+    );
+  }
 
   return (
     <BrowserRouter>
@@ -43,7 +45,7 @@ export function App({offers, cityNames}: AppScreenProps) {
             <PrivateRoute
               authorizationStatus={AuthorizationStatus.NoAuth}
             >
-              <FavoritesScreen offers={offers}/>
+              <FavoritesScreen/>
             </PrivateRoute>
           }
         />

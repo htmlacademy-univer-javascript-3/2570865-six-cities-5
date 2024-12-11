@@ -6,13 +6,14 @@ import {REVIEWS} from '../../mocks/reviews.ts';
 import {Map} from '../../components/map/map.tsx';
 import {Header} from '../../components/header/header.tsx';
 import {NearPlaceCardList} from '../../components/place-card/place-card-list.tsx';
-import {OFFERS} from '../../mocks/offers.ts';
+import {useAppSelector} from '../../hooks';
 
 
 const reviews = REVIEWS;
-const offers = OFFERS;
 
 export function OfferScreen() {
+
+  const offers = useAppSelector((state) => state.offers);
 
   const id = useParams().id;
   const offerDetails = OFFERS_DETAILS.find((details) => details.id === id);
