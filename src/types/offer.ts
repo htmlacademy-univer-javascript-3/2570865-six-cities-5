@@ -13,3 +13,4 @@ export type Offer = {
   previewImage: string;
 }
 
+export type Offers = Offer[];

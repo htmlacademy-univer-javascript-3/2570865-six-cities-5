@@ -1,12 +1,11 @@
-import {Offer} from '../../types/offer.ts';
 import {FavoritePlaceCardList} from '../../components/favorites-list/favorite-place-card-list.tsx';
 import {Header} from '../../components/header/header.tsx';
+import {Offer} from '../../types/offer.ts';
 
-type FavoritesScreenProps = {
-  offers: Offer[];
-};
+export function FavoritesScreen() {
 
-export function FavoritesScreen({offers}: FavoritesScreenProps) {
+  const offers: Offer[] = [];
+
   return (
     <div className="page">
       <Header/>
