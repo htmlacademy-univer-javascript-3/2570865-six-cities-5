@@ -5,7 +5,6 @@ import {Provider} from 'react-redux';
 import {store} from './store';
 import {CITY_NAMES} from './consts.ts';
 import {checkAuthAction, fetchOffersAction} from './store/api-actions.ts';
-import {ToastContainer} from 'react-toastify';
 
 export const Setting = {
   CityNames: CITY_NAMES
@@ -21,7 +20,6 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ToastContainer/>
       <App
         cityNames={Setting.CityNames}
       />
