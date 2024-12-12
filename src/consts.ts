@@ -25,7 +25,11 @@ export enum Sorting {
   TOP_RATED_FIRST = 'Top rated first',
 }
 
+export const TIMEOUT_SHOW_ERROR = 2000;
+
 export enum APIRoute {
   Offers = '/offers',
-  Favorite = '/favorite'
+  Favorite = '/favorite',
+  Login = '/login',
+  Logout = '/logout',
 }
