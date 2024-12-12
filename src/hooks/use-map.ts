@@ -40,7 +40,7 @@ export function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: City)
           );
         }
       }
-    }, [mapRef, city]);
+    }, [mapRef, city, map]);
 
   return map;
 }
