@@ -175,7 +175,7 @@ export function OfferScreen() {
 
           <Map
             city={city}
-            activeOffer={offerDetails}
+            activeCityLocation={offerDetails.city.location}
             offers={nearbyOffers}
             className="offer__map map"
           />
