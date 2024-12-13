@@ -5,10 +5,11 @@ import {useEffect, useRef} from 'react';
 import {useMap} from '../../hooks/use-map.ts';
 import {Nullable} from 'vitest';
 import {City} from '../../types/city.ts';
+import {OfferDetails} from '../../types/offer-details.ts';
 
 type MapProps = {
   city: City;
-  activeOffer: Nullable<Offer>;
+  activeOffer: Nullable<OfferDetails>;
   offers: Offer[];
   className: string;
 };
