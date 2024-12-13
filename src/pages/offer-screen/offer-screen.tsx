@@ -1,31 +1,46 @@
 import {CommentForm} from '../../components/comment-form/comment-form.tsx';
 import {useParams} from 'react-router-dom';
-import {OFFERS_DETAILS} from '../../mocks/offers-details.ts';
 import {ReviewsList} from '../../components/reviews/reviews-list.tsx';
-import {REVIEWS} from '../../mocks/reviews.ts';
 import {Map} from '../../components/map/map.tsx';
 import {Header} from '../../components/header/header.tsx';
 import {NearPlaceCardList} from '../../components/place-card/place-card-list.tsx';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {useEffect} from 'react';
+import {fetchOfferDetailsAction} from '../../store/api-actions.ts';
+import {AuthorizationStatus} from '../../consts.ts';
 
-
-const reviews = REVIEWS;
 
 export function OfferScreen() {
 
-  const offers = useAppSelector((state) => state.offers);
-
   const id = useParams().id;
-  const offerDetails = OFFERS_DETAILS.find((details) => details.id === id);
+
+  const dispatch = useAppDispatch();
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const offerDetails = useAppSelector((state) => state.currentOfferDetails);
+  const comments = useAppSelector((state) => state.comments);
+  let nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+
+  if (offerDetails) {
+    const offer = {
+      ...offerDetails,
+      previewImage: offerDetails.images[0]
+    };
+
+    nearbyOffers = nearbyOffers.concat(offer);
+  }
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchOfferDetailsAction(id));
+    }
+  }, [dispatch, id]);
 
   if (!offerDetails) {
     return;
   }
 
-  const activeOffer = offers.find((offer) => offer.id === id);
-
   const city = offerDetails.city;
-  const nearbyOffers = offers.filter((details) => details.id !== id);
 
   return (
 
@@ -141,21 +156,27 @@ export function OfferScreen() {
 
               <section className="offer__reviews reviews">
                 <h2 className="reviews__title">
-                  Reviews · <span className="reviews__amount">{reviews.length}</span>
+                  Reviews · <span className="reviews__amount">{comments.length}</span>
                 </h2>
 
                 <ReviewsList
-                  reviews={reviews}
+                  reviews={comments}
                 />
-                <CommentForm/>
+                {
+                  authorizationStatus === AuthorizationStatus.Auth
+                  &&
+                  <CommentForm
+                    offerId={id ?? ''}
+                  />
+                }
               </section>
             </div>
           </div>
 
           <Map
             city={city}
-            activeOffer={activeOffer}
-            offers={offers}
+            activeCityLocation={offerDetails.city.location}
+            offers={nearbyOffers}
             className="offer__map map"
           />
 

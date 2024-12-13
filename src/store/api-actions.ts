@@ -5,9 +5,13 @@ import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../co
 import {Offers} from '../types/offer.ts';
 import {
   loadFavoriteOffers,
+  loadNearbyOffers,
+  loadOfferComments,
+  loadOfferDetails,
   loadOffers,
   redirectToRoute,
   requireAuthorization,
+  sendComment,
   setError,
   setOffersDataLoadingStatus,
   updateUserData
@@ -16,6 +20,8 @@ import {AuthData} from '../types/auth-data.ts';
 import {UserData} from '../types/user-data.ts';
 import {dropToken, saveToken} from '../api/token.ts';
 import {store} from './index.ts';
+import {Comment, Comments} from '../types/comment.ts';
+import {OfferDetails} from '../types/offer-details.ts';
 
 
 export const clearErrorAction = createAsyncThunk(
@@ -104,4 +110,62 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   },
 );
 
+export const fetchOfferCommentsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/loadOfferComments',
+  async (id, {dispatch, extra: api}) => {
+    const url = APIRoute.OfferComments.replace(':id', id);
+    const {data} = await api.get<Comments>(url);
+    dispatch(loadOfferComments(data));
+  },
+);
 
+
+export const fetchNearbyOffersAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/loadNearbyOffers',
+  async (id, {dispatch, extra: api}) => {
+    const url = APIRoute.NearbyOffers.replace(':id', id);
+    const {data} = await api.get<Offers>(url);
+    dispatch(loadNearbyOffers(data));
+  },
+);
+
+export const fetchOfferDetailsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/loadOfferDetails',
+  async (id, {dispatch, extra: api}) => {
+    const url = APIRoute.OfferDetails.replace(':id', id);
+
+    try {
+      const {data} = await api.get<OfferDetails>(url);
+      dispatch(loadOfferDetails(data));
+      dispatch(fetchOfferCommentsAction(id));
+      dispatch(fetchNearbyOffersAction(id));
+    } catch (e) {
+      dispatch(redirectToRoute(AppRoute.NotFound));
+    }
+  },
+);
+
+export const sendCommentAction = createAsyncThunk<void, { offerId: string; comment: string; rating: number }, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/loadNearbyOffers',
+  async ({offerId, comment, rating}, {dispatch, extra: api}) => {
+    const url = APIRoute.OfferComments.replace(':id', offerId);
+    const commentData = (await api.post<Comment>(url, {comment: comment, rating: Number(rating)})).data;
+    dispatch(sendComment(commentData));
+  }
+);

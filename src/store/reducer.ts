@@ -1,15 +1,22 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {
   applySorting,
-  fillOffersList, loadFavoriteOffers,
+  fillOffersList,
+  loadFavoriteOffers,
+  loadNearbyOffers,
+  loadOfferComments, loadOfferDetails,
   loadOffers,
   requireAuthorization,
-  selectCity, setError,
-  setOffersDataLoadingStatus, updateUserData
+  selectCity, sendComment,
+  setError,
+  setOffersDataLoadingStatus,
+  updateUserData
 } from './action.ts';
 import {Offers} from '../types/offer.ts';
 import {AuthorizationStatus, CITY_NAMES, Sorting} from '../consts.ts';
 import {UserData} from '../types/user-data.ts';
+import {Comments} from '../types/comment.ts';
+import {OfferDetails} from '../types/offer-details.ts';
 
 const initialState: {
   city: string;
@@ -20,6 +27,9 @@ const initialState: {
   error: string | null;
   userData: UserData | null;
   favoriteOffers: Offers;
+  nearbyOffers: Offers;
+  comments: Comments;
+  currentOfferDetails: OfferDetails | null;
 } = {
   city: CITY_NAMES[0],
   offers: [],
@@ -29,6 +39,9 @@ const initialState: {
   error: null,
   userData: null,
   favoriteOffers: [],
+  nearbyOffers: [],
+  comments: [],
+  currentOfferDetails: null
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -59,5 +72,17 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadFavoriteOffers, (state, action) => {
       state.favoriteOffers = action.payload;
+    })
+    .addCase(loadNearbyOffers, (state, action) => {
+      state.nearbyOffers = action.payload;
+    })
+    .addCase(loadOfferComments, (state, action) => {
+      state.comments = action.payload;
+    })
+    .addCase(loadOfferDetails, (state, action) => {
+      state.currentOfferDetails = action.payload;
+    })
+    .addCase(sendComment, (state, action)=>{
+      state.comments.push(action.payload);
     });
 });

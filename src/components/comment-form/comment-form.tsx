@@ -1,15 +1,44 @@
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent, FormEvent, useState} from 'react';
+import {useAppDispatch} from '../../hooks';
+import {sendCommentAction} from '../../store/api-actions.ts';
 
-export function CommentForm() {
+type CommentFormProps = {
+  offerId: string;
+}
+
+export function CommentForm({offerId}: CommentFormProps) {
   const [formData, setFormData] = useState({rating: 0, review: ''});
+
+  const dispatch = useAppDispatch();
 
   function handleOnChangeForm(event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
     const {name, value} = event.currentTarget;
     setFormData({...formData, [name]: value});
   }
 
+  function handleOnSubmit(event: FormEvent) {
+    event.preventDefault();
+
+    if (!formData.rating || !formData.review) {
+      return;
+    }
+
+    const comment = {
+      offerId: offerId,
+      comment: formData.review,
+      rating: formData.rating,
+    };
+
+    dispatch(sendCommentAction(comment));
+  }
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action="#"
+      method="post"
+      onSubmit={handleOnSubmit}
+    >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
@@ -120,7 +149,6 @@ export function CommentForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
         >
           Submit
         </button>

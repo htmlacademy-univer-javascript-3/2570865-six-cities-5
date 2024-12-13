@@ -1,7 +1,7 @@
-import {Review} from '../../types/review.ts';
+import {Comment} from '../../types/comment.ts';
 
 type ReviewItemProps = {
-  review: Review;
+  review: Comment;
 }
 
 export function ReviewItem({review}: ReviewItemProps) {

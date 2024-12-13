@@ -68,7 +68,7 @@ export function MainScreen({cityNames}: MainScreenProps) {
             <div className="cities__right-section">
               <Map
                 city={currentOffers[0]?.city}
-                activeOffer={activeOffer}
+                activeCityLocation={activeOffer?.city.location}
                 offers={currentOffers}
                 className="cities__map map"
               />

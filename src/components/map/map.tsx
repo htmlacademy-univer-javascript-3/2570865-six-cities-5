@@ -4,16 +4,16 @@ import {Offer} from '../../types/offer.ts';
 import {useEffect, useRef} from 'react';
 import {useMap} from '../../hooks/use-map.ts';
 import {Nullable} from 'vitest';
-import {City} from '../../types/city.ts';
+import {City, Location} from '../../types/city.ts';
 
 type MapProps = {
   city: City;
-  activeOffer: Nullable<Offer>;
+  activeCityLocation: Nullable<Location>;
   offers: Offer[];
   className: string;
 };
 
-export function Map({city, activeOffer, offers, className}: MapProps) {
+export function Map({city, activeCityLocation, offers, className}: MapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMap(mapRef, city);
 
@@ -37,7 +37,7 @@ export function Map({city, activeOffer, offers, className}: MapProps) {
             lat: offer.location.latitude,
             lng: offer.location.longitude
           }, {
-            icon: (offer.city.location === activeOffer?.city.location)
+            icon: (offer.city.location === activeCityLocation)
               ? currentCustomIcon
               : defaultCustomIcon
           }).addTo(map);
@@ -45,7 +45,7 @@ export function Map({city, activeOffer, offers, className}: MapProps) {
       });
 
     }
-  }, [map, offers, city, activeOffer, currentCustomIcon, defaultCustomIcon]);
+  }, [map, offers, city, activeCityLocation, currentCustomIcon, defaultCustomIcon]);
 
   return (
     <div
