@@ -1,7 +1,8 @@
-import {useState} from 'react';
+import {memo, useCallback, useState} from 'react';
 import {Sorting} from '../../consts.ts';
-import {SortOptionsItem} from './sort-options-item.tsx';
+import {MemoizedSortOptionsItem} from './sort-options-item.tsx';
 import {useAppSelector} from '../../hooks';
+import {getSorting} from '../../store/selectors.ts';
 
 type SortOptionsProps = {
   options: Sorting[];
@@ -11,16 +12,16 @@ type SortOptionsProps = {
 export function SortOptions({options, onSortingOptionChange}: SortOptionsProps) {
   const [isVisible, setIsVisible] = useState(false);
 
-  const sorting = useAppSelector((state) => state.sorting);
+  const sorting = useAppSelector(getSorting);
 
-  function handleSortingExpand() {
+  const handleSortingExpand = useCallback(() => {
     setIsVisible((value) => !value);
-  }
+  }, []);
 
-  function handleSortingOptionChange(option: Sorting) {
+  const handleSortingOptionChange = useCallback((option: Sorting) => {
     onSortingOptionChange(option);
     setIsVisible(false);
-  }
+  }, [onSortingOptionChange]);
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -40,7 +41,7 @@ export function SortOptions({options, onSortingOptionChange}: SortOptionsProps) 
         <ul className="places__options places__options--custom places__options--opened">
           {
             options.map((option) => (
-              <SortOptionsItem
+              <MemoizedSortOptionsItem
                 key={option}
                 option={option}
                 isActive={option === sorting}
@@ -53,3 +54,5 @@ export function SortOptions({options, onSortingOptionChange}: SortOptionsProps) 
     </form>
   );
 }
+
+export const MemoizedSortOptions = memo(SortOptions);

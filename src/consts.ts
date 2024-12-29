@@ -37,3 +37,10 @@ export enum APIRoute {
   OfferDetails = '/offers/:id',
   OfferComments = '/comments/:id',
 }
+
+export enum NameSpace {
+  City = 'DATA',
+  Offers = 'OFFERS',
+  OfferDetails = 'OFFER_DETAILS',
+  User = 'USER',
+}

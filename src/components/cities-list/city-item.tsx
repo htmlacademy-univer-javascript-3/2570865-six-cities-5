@@ -1,3 +1,5 @@
+import {memo} from 'react';
+
 type CityItemProps = {
   name: string;
   onCityClick: (city: string) => void;
@@ -17,3 +19,5 @@ export function CityItem({name, onCityClick}: CityItemProps) {
     </li>
   );
 }
+
+export const MemoizedCityItem = memo(CityItem);

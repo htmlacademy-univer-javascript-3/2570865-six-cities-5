@@ -1,4 +1,5 @@
-import {CityItem} from './city-item.tsx';
+import {MemoizedCityItem} from './city-item.tsx';
+import {memo} from 'react';
 
 type CitiesListProps = {
   cityNames: string[];
@@ -13,7 +14,7 @@ export function CitiesList({cityNames, onCityClick}: CitiesListProps) {
         {
           cityNames
             .map((cityName) => (
-              <CityItem
+              <MemoizedCityItem
                 key={cityName}
                 name={cityName}
                 onCityClick={onCityClick}
@@ -24,3 +25,5 @@ export function CitiesList({cityNames, onCityClick}: CitiesListProps) {
     </section>
   );
 }
+
+export const MemoizedCitiesList = memo(CitiesList);

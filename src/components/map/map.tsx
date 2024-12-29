@@ -1,7 +1,7 @@
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {Offer} from '../../types/offer.ts';
-import {useEffect, useRef} from 'react';
+import {memo, useEffect, useRef} from 'react';
 import {useMap} from '../../hooks/use-map.ts';
 import {Nullable} from 'vitest';
 import {City, Location} from '../../types/city.ts';
@@ -55,3 +55,5 @@ export function Map({city, activeCityLocation, offers, className}: MapProps) {
     </div>
   );
 }
+
+export const MemoizedMap = memo(Map);

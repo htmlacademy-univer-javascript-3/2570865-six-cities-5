@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom';
 import {AppRoute, PlaceCardType} from '../../consts.ts';
 import {Nullable} from 'vitest';
+import {memo} from 'react';
 
 type PlaceCardProps = {
   id: string;
@@ -13,6 +14,7 @@ type PlaceCardProps = {
   height: number;
   onActiveItemChange?: (id: Nullable<string>) => void;
   placeCardType: PlaceCardType;
+  rating: number;
 }
 
 export function PlaceCard({
@@ -26,6 +28,7 @@ export function PlaceCard({
   height,
   onActiveItemChange,
   placeCardType,
+  rating,
 }: PlaceCardProps) {
   const offerUrl = AppRoute.Offer.replace(':id', id);
 
@@ -76,7 +79,7 @@ export function PlaceCard({
 
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">
-              <span style={{width: '80%'}}></span>
+              <span style={{width: `${20 * rating}%`}}></span>
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
@@ -90,3 +93,5 @@ export function PlaceCard({
     </article>
   );
 }
+
+export const MemoizedPlaceCard = memo(PlaceCard);

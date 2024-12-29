@@ -1,4 +1,5 @@
 import {Comment} from '../../types/comment.ts';
+import {memo} from 'react';
 
 type ReviewItemProps = {
   review: Comment;
@@ -23,7 +24,7 @@ export function ReviewItem({review}: ReviewItemProps) {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: '80%'}}/>
+            <span style={{width: `${review.rating * 20}%`}}/>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -37,3 +38,5 @@ export function ReviewItem({review}: ReviewItemProps) {
     </li>
   );
 }
+
+export const MemoizedReviewItem = memo(ReviewItem);

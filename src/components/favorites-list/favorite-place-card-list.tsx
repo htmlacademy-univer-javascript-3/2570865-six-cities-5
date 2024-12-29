@@ -1,5 +1,6 @@
 import {Offer} from '../../types/offer.ts';
-import {FavoritePlaceCard} from './favorite-place-card.tsx';
+import {MemoizedFavoritePlaceCard} from './favorite-place-card.tsx';
+import {memo} from 'react';
 
 type FavoritesListProps = {
   offers: Offer[];
@@ -28,7 +29,7 @@ export function FavoritePlaceCardList({offers}: FavoritesListProps) {
                   offers
                     .filter((offer) => offer.city.name === city)
                     .map((offer) => (
-                      <FavoritePlaceCard
+                      <MemoizedFavoritePlaceCard
                         key={offer.id}
                         {...offer}
                         imageSrc={offer.previewImage}
@@ -42,3 +43,5 @@ export function FavoritePlaceCardList({offers}: FavoritesListProps) {
     </ul>
   );
 }
+
+export const MemoizedFavoritePlaceCardList = memo(FavoritePlaceCardList);

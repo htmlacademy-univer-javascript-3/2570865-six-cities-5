@@ -1,5 +1,6 @@
 import {Comment} from '../../types/comment.ts';
-import {ReviewItem} from './review-item.tsx';
+import {MemoizedReviewItem} from './review-item.tsx';
+import {memo} from 'react';
 
 type ReviewsListProps = {
   reviews: Comment[];
@@ -12,7 +13,7 @@ export function ReviewsList({reviews}: ReviewsListProps) {
       {
         reviews.map((review) =>
           (
-            <ReviewItem
+            <MemoizedReviewItem
               key={review.id}
               review={review}
             />
@@ -22,3 +23,5 @@ export function ReviewsList({reviews}: ReviewsListProps) {
     </ul>
   );
 }
+
+export const MemoizedReviewsList = memo(ReviewsList);

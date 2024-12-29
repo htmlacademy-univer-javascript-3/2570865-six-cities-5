@@ -1,4 +1,5 @@
 import {Sorting} from '../../consts.ts';
+import {memo} from 'react';
 
 type SortOptionsItemProps = {
   option: Sorting;
@@ -21,3 +22,5 @@ export function SortOptionsItem({option, isActive, onItemClick}: SortOptionsItem
     </li>
   );
 }
+
+export const MemoizedSortOptionsItem = memo(SortOptionsItem);
