@@ -10,14 +10,15 @@ import {useAppSelector} from '../../hooks';
 import {Spinner} from '../spinner/spinner.tsx';
 import HistoryRouter from '../history-route/history-route.tsx';
 import browserHistory from '../../browser-history.ts';
+import {getAuthorizationStatus, getIsOffersDataLoading} from '../../store/selectors.ts';
 
 type AppScreenProps = {
   cityNames: string[];
 };
 
 export function App({cityNames}: AppScreenProps) {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isOffersDataLoading = useAppSelector(getIsOffersDataLoading);
 
   if (isOffersDataLoading) {
     return (

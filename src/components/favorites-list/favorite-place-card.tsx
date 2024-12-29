@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../consts.ts';
+import {memo} from 'react';
 
 type PlaceCardFavoriteProps = {
   id: string;
@@ -8,9 +9,10 @@ type PlaceCardFavoriteProps = {
   imageSrc: string;
   price: number;
   isPremium: boolean;
+  rating: number;
 }
 
-export function FavoritePlaceCard({id, title, type, imageSrc, price, isPremium}: PlaceCardFavoriteProps) {
+export function FavoritePlaceCard({id, title, type, imageSrc, price, isPremium, rating}: PlaceCardFavoriteProps) {
   const offerUrl = AppRoute.Offer.replace(':id', id);
 
   return (
@@ -47,7 +49,7 @@ export function FavoritePlaceCard({id, title, type, imageSrc, price, isPremium}:
 
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '100%'}}></span>
+            <span style={{width: `${20 * rating}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -63,3 +65,5 @@ export function FavoritePlaceCard({id, title, type, imageSrc, price, isPremium}:
     </article>
   );
 }
+
+export const MemoizedFavoritePlaceCard = memo(FavoritePlaceCard);

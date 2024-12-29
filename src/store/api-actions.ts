@@ -3,25 +3,21 @@ import {AppDispatch, State} from '../types/state.ts';
 import {AxiosInstance} from 'axios';
 import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../consts.ts';
 import {Offers} from '../types/offer.ts';
-import {
-  loadFavoriteOffers,
-  loadNearbyOffers,
-  loadOfferComments,
-  loadOfferDetails,
-  loadOffers,
-  redirectToRoute,
-  requireAuthorization,
-  sendComment,
-  setError,
-  setOffersDataLoadingStatus,
-  updateUserData
-} from './action.ts';
+import {redirectToRoute, setError,} from './action.ts';
 import {AuthData} from '../types/auth-data.ts';
 import {UserData} from '../types/user-data.ts';
 import {dropToken, saveToken} from '../api/token.ts';
 import {store} from './index.ts';
 import {Comment, Comments} from '../types/comment.ts';
 import {OfferDetails} from '../types/offer-details.ts';
+import {updateAuthorizationStatus, updateUserData} from './slices/user-slice/user-slice.ts';
+import {loadFavoriteOffers, loadOffers, setOffersDataLoadingStatus} from './slices/offers-slice/offers-slice.ts';
+import {
+  loadNearbyOffers,
+  loadOfferComments,
+  loadOfferDetails,
+  sendComment
+} from './slices/offer-details-slice/offer-details-slice.ts';
 
 
 export const clearErrorAction = createAsyncThunk(
@@ -70,11 +66,11 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     try {
       const userData = (await api.get<UserData>(APIRoute.Login)).data;
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      dispatch(updateAuthorizationStatus(AuthorizationStatus.Auth));
       dispatch(updateUserData(userData));
       dispatch(fetchFavoriteOffersAction());
     } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      dispatch(updateAuthorizationStatus(AuthorizationStatus.NoAuth));
     }
   },
 );
@@ -88,7 +84,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   async ({login: email, password}, {dispatch, extra: api}) => {
     const userData = (await api.post<UserData>(APIRoute.Login, {email, password})).data;
     saveToken(userData.token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(updateAuthorizationStatus(AuthorizationStatus.Auth));
     dispatch(updateUserData(userData));
     dispatch(fetchFavoriteOffersAction());
     dispatch(redirectToRoute(AppRoute.Main));
@@ -104,7 +100,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoute.Logout);
     dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(updateAuthorizationStatus(AuthorizationStatus.NoAuth));
     dispatch(updateUserData(null));
     dispatch(loadFavoriteOffers([]));
   },

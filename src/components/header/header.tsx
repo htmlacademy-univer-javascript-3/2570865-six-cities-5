@@ -2,17 +2,19 @@ import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../consts.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/api-actions.ts';
+import {getAuthorizationStatus, getFavoriteOffers, getUserData} from '../../store/selectors.ts';
+import {memo, useCallback} from 'react';
 
 export function Header() {
 
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userData = useAppSelector((state) => state.userData);
-  const favoriteOffers = useAppSelector((state) => state.favoriteOffers);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userData = useAppSelector(getUserData);
+  const favoriteOffers = useAppSelector(getFavoriteOffers);
 
-  function handleLogoutClick() {
+  const handleLogoutClick = useCallback(() => {
     dispatch(logoutAction());
-  }
+  }, [dispatch]);
 
   return (
     <header className="header">
@@ -77,3 +79,5 @@ export function Header() {
     </header>
   );
 }
+
+export const MemoizedHeader = memo(Header);

@@ -1,7 +1,8 @@
 import {Offer} from '../../types/offer.ts';
-import {PlaceCard} from './place-card.tsx';
+import {MemoizedPlaceCard} from './place-card.tsx';
 import {Nullable} from 'vitest';
 import {PlaceCardType} from '../../consts.ts';
+import {memo} from 'react';
 
 type GeneralPlaceCardListCommonProps = {
   offers: Offer[];
@@ -24,7 +25,7 @@ function GeneralPlaceCardList({
     <div className={className}>
       {
         offers.map((offer) => (
-          <PlaceCard
+          <MemoizedPlaceCard
             key={offer.id}
             {...offer}
             imageSrc={offer.previewImage}
@@ -56,6 +57,8 @@ export function CityPlaceCardList(props: PlaceCardListProps) {
   );
 }
 
+export const MemoizedCityPlaceCardList = memo(CityPlaceCardList);
+
 export function NearPlaceCardList(props: PlaceCardListProps) {
   return (
     <GeneralPlaceCardList
@@ -67,3 +70,5 @@ export function NearPlaceCardList(props: PlaceCardListProps) {
     />
   );
 }
+
+export const MemoizedNearPlaceCardList = memo(NearPlaceCardList);

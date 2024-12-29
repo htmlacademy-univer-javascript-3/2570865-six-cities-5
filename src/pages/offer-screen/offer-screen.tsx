@@ -1,13 +1,14 @@
 import {CommentForm} from '../../components/comment-form/comment-form.tsx';
 import {useParams} from 'react-router-dom';
-import {ReviewsList} from '../../components/reviews/reviews-list.tsx';
-import {Map} from '../../components/map/map.tsx';
-import {Header} from '../../components/header/header.tsx';
-import {NearPlaceCardList} from '../../components/place-card/place-card-list.tsx';
+import {MemoizedReviewsList} from '../../components/reviews/reviews-list.tsx';
+import {MemoizedMap} from '../../components/map/map.tsx';
+import {MemoizedHeader} from '../../components/header/header.tsx';
+import {MemoizedNearPlaceCardList} from '../../components/place-card/place-card-list.tsx';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {useEffect} from 'react';
 import {fetchOfferDetailsAction} from '../../store/api-actions.ts';
 import {AuthorizationStatus} from '../../consts.ts';
+import {getAuthorizationStatus, getComments, getNearbyOffers, getOfferDetails} from '../../store/selectors.ts';
 
 
 export function OfferScreen() {
@@ -16,10 +17,10 @@ export function OfferScreen() {
 
   const dispatch = useAppDispatch();
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const offerDetails = useAppSelector((state) => state.currentOfferDetails);
-  const comments = useAppSelector((state) => state.comments);
-  let nearbyOffers = useAppSelector((state) => state.nearbyOffers);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const offerDetails = useAppSelector(getOfferDetails);
+  const comments = useAppSelector(getComments);
+  let nearbyOffers = useAppSelector(getNearbyOffers);
 
   if (offerDetails) {
     const offer = {
@@ -46,7 +47,7 @@ export function OfferScreen() {
 
     <div className="page">
 
-      <Header/>
+      <MemoizedHeader/>
 
       <main className="page__main page__main--offer">
         <section className="offer">
@@ -91,7 +92,7 @@ export function OfferScreen() {
 
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: '80%'}}/>
+                  <span style={{width: `${20 * offerDetails.rating}%`}}/>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offerDetails.rating}</span>
@@ -159,7 +160,7 @@ export function OfferScreen() {
                   Reviews · <span className="reviews__amount">{comments.length}</span>
                 </h2>
 
-                <ReviewsList
+                <MemoizedReviewsList
                   reviews={comments}
                 />
                 {
@@ -173,7 +174,7 @@ export function OfferScreen() {
             </div>
           </div>
 
-          <Map
+          <MemoizedMap
             city={city}
             activeCityLocation={offerDetails.city.location}
             offers={nearbyOffers}
@@ -189,7 +190,7 @@ export function OfferScreen() {
               Other places in the neighbourhood
             </h2>
 
-            <NearPlaceCardList
+            <MemoizedNearPlaceCardList
               offers={nearbyOffers}
             />
 
