@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.ts';
 import {AxiosInstance} from 'axios';
 import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../consts.ts';
-import {Offers} from '../types/offer.ts';
+import {Offer, Offers} from '../types/offer.ts';
 import {redirectToRoute, setError,} from './action.ts';
 import {AuthData} from '../types/auth-data.ts';
 import {UserData} from '../types/user-data.ts';
@@ -11,13 +11,19 @@ import {store} from './index.ts';
 import {Comment, Comments} from '../types/comment.ts';
 import {OfferDetails} from '../types/offer-details.ts';
 import {updateAuthorizationStatus, updateUserData} from './slices/user-slice/user-slice.ts';
-import {loadFavoriteOffers, loadOffers, setOffersDataLoadingStatus} from './slices/offers-slice/offers-slice.ts';
+import {
+  loadFavoriteOffers,
+  loadOffers,
+  setOffersDataLoadingStatus,
+  toggleFavoriteOffer
+} from './slices/offers-slice/offers-slice.ts';
 import {
   loadNearbyOffers,
   loadOfferComments,
   loadOfferDetails,
-  sendComment
+  sendComment, updateNearbyOffersFavorite, updateOfferDetailsFavoriteStatus
 } from './slices/offer-details-slice/offer-details-slice.ts';
+import {FavoriteOfferData} from '../types/favorite-offer-data.ts';
 
 
 export const clearErrorAction = createAsyncThunk(
@@ -39,6 +45,25 @@ export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     const {data} = await api.get<Offers>(APIRoute.Favorite);
     dispatch(loadFavoriteOffers(data));
+  },
+);
+
+export const toggleFavoriteStatusAction = createAsyncThunk<void, FavoriteOfferData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/toggleFavoriteStatusAction',
+  async ({offerId, status}: FavoriteOfferData, {dispatch, extra: api}) => {
+    const url = `${APIRoute.Favorite}/${offerId}/${status}`;
+    const {data} = await api.post<Offer>(url);
+
+    const actualStatus = data.isFavorite ? 1 : 0;
+
+    dispatch(toggleFavoriteOffer({offerId: data.id, status: actualStatus}));
+    dispatch(updateOfferDetailsFavoriteStatus({offerId: data.id, status: actualStatus}));
+    dispatch(updateNearbyOffersFavorite({offerId: data.id, status: actualStatus}));
+    dispatch(fetchFavoriteOffersAction());
   },
 );
 

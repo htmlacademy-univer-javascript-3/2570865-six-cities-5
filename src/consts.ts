@@ -17,6 +17,12 @@ export enum PlaceCardType {
   Near
 }
 
+export enum FavoriteType {
+  OfferList,
+  OfferDetails,
+  FavoritesList
+}
+
 export const CITY_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export enum Sorting {

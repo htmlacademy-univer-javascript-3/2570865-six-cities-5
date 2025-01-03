@@ -9,20 +9,22 @@ type CitiesListProps = {
 export function CitiesList({cityNames, onCityClick}: CitiesListProps) {
 
   return (
-    <section className="locations container">
-      <ul className="locations__list tabs__list">
-        {
-          cityNames
-            .map((cityName) => (
-              <MemoizedCityItem
-                key={cityName}
-                name={cityName}
-                onCityClick={onCityClick}
-              />
-            ))
-        }
-      </ul>
-    </section>
+    <div className="tabs">
+      <section className="locations container">
+        <ul className="locations__list tabs__list">
+          {
+            cityNames
+              .map((cityName) => (
+                <MemoizedCityItem
+                  key={cityName}
+                  name={cityName}
+                  onCityClick={onCityClick}
+                />
+              ))
+          }
+        </ul>
+      </section>
+    </div>
   );
 }
 
