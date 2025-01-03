@@ -1,6 +1,7 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../consts.ts';
+import {AppRoute, FavoriteType} from '../../consts.ts';
 import {memo} from 'react';
+import {FavoriteButton} from '../favorite-button/favorite-button.tsx';
 
 type PlaceCardFavoriteProps = {
   id: string;
@@ -39,12 +40,15 @@ export function FavoritePlaceCard({id, title, type, imageSrc, price, isPremium, 
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+
+          <FavoriteButton
+            id={id}
+            isFavorite
+            type={FavoriteType.FavoritesList}
+            width={18}
+            height={19}
+          />
+
         </div>
 
         <div className="place-card__rating rating">

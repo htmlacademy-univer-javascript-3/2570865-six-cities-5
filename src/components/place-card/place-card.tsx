@@ -1,7 +1,8 @@
 import {Link} from 'react-router-dom';
-import {AppRoute, PlaceCardType} from '../../consts.ts';
+import {AppRoute, FavoriteType, PlaceCardType} from '../../consts.ts';
 import {Nullable} from 'vitest';
 import {memo} from 'react';
+import {FavoriteButton} from '../favorite-button/favorite-button.tsx';
 
 type PlaceCardProps = {
   id: string;
@@ -10,6 +11,7 @@ type PlaceCardProps = {
   imageSrc: string;
   price: number;
   isPremium: boolean;
+  isFavorite: boolean;
   width: number;
   height: number;
   onActiveItemChange?: (id: Nullable<string>) => void;
@@ -24,6 +26,7 @@ export function PlaceCard({
   imageSrc,
   price,
   isPremium,
+  isFavorite,
   width,
   height,
   onActiveItemChange,
@@ -53,13 +56,11 @@ export function PlaceCard({
 
       <Link to={offerUrl}>
         <div className={`${classNamePrefix}__image-wrapper place-card__image-wrapper`}>
-          <a href="#">
-            <img
-              className="place-card__image"
-              src={imageSrc} width={width} height={height}
-              alt="Place image"
-            />
-          </a>
+          <img
+            className="place-card__image"
+            src={imageSrc} width={width} height={height}
+            alt="Place image"
+          />
         </div>
 
         <div className="place-card__info">
@@ -69,12 +70,14 @@ export function PlaceCard({
               <span className="place-card__price-text">&#47;&nbsp;night</span>
             </div>
 
-            <button className="place-card__bookmark-button button" type="button">
-              <svg className="place-card__bookmark-icon" width="18" height="19">
-                <use xlinkHref="#icon-bookmark"></use>
-              </svg>
-              <span className="visually-hidden">To bookmarks</span>
-            </button>
+            <FavoriteButton
+              id={id}
+              isFavorite={isFavorite}
+              type={FavoriteType.OfferList}
+              width={18}
+              height={19}
+            />
+
           </div>
 
           <div className="place-card__rating rating">

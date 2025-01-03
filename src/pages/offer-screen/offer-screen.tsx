@@ -5,10 +5,11 @@ import {MemoizedMap} from '../../components/map/map.tsx';
 import {MemoizedHeader} from '../../components/header/header.tsx';
 import {MemoizedNearPlaceCardList} from '../../components/place-card/place-card-list.tsx';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {useEffect} from 'react';
 import {fetchOfferDetailsAction} from '../../store/api-actions.ts';
-import {AuthorizationStatus} from '../../consts.ts';
+import {AuthorizationStatus, FavoriteType} from '../../consts.ts';
 import {getAuthorizationStatus, getComments, getNearbyOffers, getOfferDetails} from '../../store/selectors.ts';
+import {FavoriteButton} from '../../components/favorite-button/favorite-button.tsx';
+import {useEffect} from 'react';
 
 
 export function OfferScreen() {
@@ -82,12 +83,14 @@ export function OfferScreen() {
                 <h1 className="offer__name">
                   {offerDetails.title}
                 </h1>
-                <button className="offer__bookmark-button button" type="button">
-                  <svg className="offer__bookmark-icon" width={31} height={33}>
-                    <use xlinkHref="#icon-bookmark"/>
-                  </svg>
-                  <span className="visually-hidden">To bookmarks</span>
-                </button>
+
+                <FavoriteButton
+                  id={offerDetails.id}
+                  isFavorite={offerDetails.isFavorite}
+                  type={FavoriteType.OfferDetails}
+                  width={31}
+                  height={33}
+                />
               </div>
 
               <div className="offer__rating rating">
