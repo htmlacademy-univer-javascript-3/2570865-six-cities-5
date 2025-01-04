@@ -6,6 +6,12 @@ type ReviewItemProps = {
 }
 
 export function ReviewItem({review}: ReviewItemProps) {
+
+  const date = new Date(Date.parse(review.date));
+  const monthName = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
+  const year = date.getFullYear();
+  const dateString = `${monthName} ${year}`;
+
   return (
     <li className="reviews__item">
       <div className="reviews__user user">
@@ -32,7 +38,7 @@ export function ReviewItem({review}: ReviewItemProps) {
           {review.comment}
         </p>
         <time className="reviews__time" dateTime="2019-04-24">
-          {review.date}
+          {dateString}
         </time>
       </div>
     </li>

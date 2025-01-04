@@ -1,5 +1,5 @@
-import {CityState} from '../../../types/state.ts';
-import {CITY_NAMES, NameSpace} from '../../../consts.ts';
+import {CityState} from '../../types/state.ts';
+import {CITY_NAMES, NameSpace} from '../../consts.ts';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 const initialState: CityState = {

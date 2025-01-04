@@ -1,4 +1,6 @@
 import {memo} from 'react';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../consts.ts';
 
 type CityItemProps = {
   name: string;
@@ -13,9 +15,9 @@ export function CityItem({name, onCityClick}: CityItemProps) {
         onCityClick(name);
       }}
     >
-      <a className="locations__item-link tabs__item" href="#">
+      <Link className="locations__item-link tabs__item" to={AppRoute.Main}>
         <span>{name}</span>
-      </a>
+      </Link>
     </li>
   );
 }

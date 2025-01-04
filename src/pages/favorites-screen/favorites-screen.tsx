@@ -1,8 +1,9 @@
-import {MemoizedFavoritePlaceCardList} from '../../components/favorites-list/favorite-place-card-list.tsx';
 import {MemoizedHeader} from '../../components/header/header.tsx';
 import {MemoizedFooter} from '../../components/footer/footer.tsx';
 import {useAppSelector} from '../../hooks';
-import {getFavoriteOffers} from '../../store/selectors.ts';
+import {FavoritesEmpty} from '../../components/favorites-content/favorites-empty.tsx';
+import {FavoritesContent} from '../../components/favorites-content/favorites-content.tsx';
+import {getFavoriteOffers} from '../../store/selectors/offers-selectors.ts';
 
 export function FavoritesScreen() {
 
@@ -12,17 +13,15 @@ export function FavoritesScreen() {
     <div className="page">
       <MemoizedHeader/>
 
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-
-            <MemoizedFavoritePlaceCardList
-              offers={favoriteOffers}
-            />
-          </section>
-        </div>
-      </main>
+      {
+        favoriteOffers.length > 0
+          ?
+          <FavoritesContent
+            favoriteOffers={favoriteOffers}
+          />
+          :
+          <FavoritesEmpty/>
+      }
 
       <MemoizedFooter/>
     </div>

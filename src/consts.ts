@@ -1,3 +1,5 @@
+import leaflet from 'leaflet';
+
 export enum AppRoute {
   Main = '/',
   Login = '/login',
@@ -25,14 +27,32 @@ export enum FavoriteType {
 
 export const CITY_NAMES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
+export const CustomIcon = {
+  Default: leaflet.icon({
+    iconUrl: '/img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  }),
+  Current: leaflet.icon({
+    iconUrl: '/img/pin-active.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  })
+} as const;
+
 export enum Sorting {
-  POPULAR = 'Popular',
-  PRICE_LOW_TO_HIGH = 'Price: low to high',
-  PRICE_HIGH_TO_LOW = 'Price: high to low',
-  TOP_RATED_FIRST = 'Top rated first',
+  Popular = 'Popular',
+  PriceLowToHigh = 'Price: low to high',
+  PriceHighToLow = 'Price: high to low',
+  TopRatedFirst = 'Top rated first',
 }
 
 export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const ApiConfig = {
+  BackendUrl: 'https://14.design.htmlacademy.pro/six-cities',
+  RequestTimeout: 5000,
+};
 
 export enum APIRoute {
   Offers = '/offers',

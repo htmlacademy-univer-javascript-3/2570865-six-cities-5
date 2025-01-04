@@ -1,13 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {NameSpace, Sorting} from '../../../consts.ts';
-import {Offers} from '../../../types/offer.ts';
-import {OffersState} from '../../../types/state.ts';
-import {FavoriteOfferData} from '../../../types/favorite-offer-data.ts';
+import {NameSpace, Sorting} from '../../consts.ts';
+import {Offers} from '../../types/offer.ts';
+import {OffersState} from '../../types/state.ts';
+import {FavoriteOfferData} from '../../types/favorite-offer-data.ts';
 
 const initialState: OffersState = {
   offers: [],
   isOffersDataLoading: false,
-  sorting: Sorting.POPULAR,
+  sorting: Sorting.Popular,
   favoriteOffers: [],
 };
 

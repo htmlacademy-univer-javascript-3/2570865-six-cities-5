@@ -5,12 +5,13 @@ import {MemoizedHeader} from '../../components/header/header.tsx';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {Sorting} from '../../consts.ts';
 import {applySortingToOffersList} from '../../store/sorting.ts';
-import {getCurrentCityName, getOffers, getSorting} from '../../store/selectors.ts';
-import {selectCity} from '../../store/slices/city-slice/city-slice.ts';
-import {applySorting} from '../../store/slices/offers-slice/offers-slice.ts';
+import {selectCity} from '../../store/slices/city-slice.ts';
+import {applySorting} from '../../store/slices/offers-slice.ts';
 import {MainEmpty} from '../../components/main-content/main-empty.tsx';
 import {MainContent} from '../../components/main-content/main-content.tsx';
 import {MemoizedCitiesList} from '../../components/cities-list/cities-list.tsx';
+import {getCurrentCityName} from '../../store/selectors/city-selectors.ts';
+import {getOffers, getSorting} from '../../store/selectors/offers-selectors.ts';
 
 type MainScreenProps = {
   cityNames: string[];
@@ -33,7 +34,7 @@ export function MainScreen({cityNames}: MainScreenProps) {
     setActiveOffer(newActiveOffer);
   }, [currentOffers]);
 
-  const handleSortingOptionChange = useCallback((newSorting: Sorting) => {
+  const handleSortingOptionClick = useCallback((newSorting: Sorting) => {
     dispatch(applySorting(newSorting));
   }, [dispatch]);
 
@@ -58,8 +59,8 @@ export function MainScreen({cityNames}: MainScreenProps) {
             offers={currentOffers}
             activeOffer={activeOffer}
             cityName={cityName}
-            handleActiveOfferChange={handleActiveOfferChange}
-            handleSortingOptionChange={handleSortingOptionChange}
+            onActiveOfferChange={handleActiveOfferChange}
+            onSortingOptionChange={handleSortingOptionClick}
           />
           :
           <MainEmpty/>
