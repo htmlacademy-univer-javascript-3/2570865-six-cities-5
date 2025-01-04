@@ -10,7 +10,8 @@ import {useAppSelector} from '../../hooks';
 import {Spinner} from '../spinner/spinner.tsx';
 import HistoryRouter from '../history-route/history-route.tsx';
 import browserHistory from '../../browser-history.ts';
-import {getAuthorizationStatus, getIsOffersDataLoading} from '../../store/selectors.ts';
+import {getAuthorizationStatus} from '../../store/selectors/user-selectors.ts';
+import {getIsOffersDataLoading} from '../../store/selectors/offers-selectors.ts';
 
 type AppScreenProps = {
   cityNames: string[];

@@ -2,8 +2,9 @@ import {Link} from 'react-router-dom';
 import {AppRoute, AuthorizationStatus} from '../../consts.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/api-actions.ts';
-import {getAuthorizationStatus, getFavoriteOffers, getUserData} from '../../store/selectors.ts';
 import {memo, useCallback} from 'react';
+import {getAuthorizationStatus, getUserData} from '../../store/selectors/user-selectors.ts';
+import {getFavoriteOffers} from '../../store/selectors/offers-selectors.ts';
 
 export function Header() {
 

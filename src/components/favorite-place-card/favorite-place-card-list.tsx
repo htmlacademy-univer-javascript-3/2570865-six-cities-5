@@ -1,6 +1,8 @@
 import {Offer} from '../../types/offer.ts';
 import {MemoizedFavoritePlaceCard} from './favorite-place-card.tsx';
 import {memo} from 'react';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../consts.ts';
 
 type FavoritesListProps = {
   offers: Offer[];
@@ -18,9 +20,9 @@ export function FavoritePlaceCardList({offers}: FavoritesListProps) {
             <li key={city} className="favorites__locations-items">
               <div className="favorites__locations locations locations--current">
                 <div className="locations__item">
-                  <a className="locations__item-link" href="#">
+                  <Link className="locations__item-link" to={AppRoute.Main}>
                     <span>{city}</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
 

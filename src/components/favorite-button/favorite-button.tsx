@@ -3,7 +3,7 @@ import {AppRoute, AuthorizationStatus, FavoriteType} from '../../consts.ts';
 import {toggleFavoriteStatusAction} from '../../store/api-actions.ts';
 import {redirectToRoute} from '../../store/action.ts';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {getAuthorizationStatus} from '../../store/selectors.ts';
+import {getAuthorizationStatus} from '../../store/selectors/user-selectors.ts';
 
 type FavoriteButtonProps = {
   id: string;

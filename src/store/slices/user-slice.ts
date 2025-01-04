@@ -1,7 +1,7 @@
-import {AuthorizationStatus, NameSpace} from '../../../consts.ts';
+import {AuthorizationStatus, NameSpace} from '../../consts.ts';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {UserState} from '../../../types/state.ts';
-import {UserData} from '../../../types/user-data.ts';
+import {UserState} from '../../types/state.ts';
+import {UserData} from '../../types/user-data.ts';
 
 
 const initialState: UserState = {
