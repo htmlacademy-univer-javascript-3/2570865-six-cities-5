@@ -6,16 +6,16 @@ import {Offer, Offers} from '../../types/offer.ts';
 import {Nullable} from 'vitest';
 
 type MainContentProps = {
-  handleSortingOptionChange: (newSorting: Sorting) => void;
-  handleActiveOfferChange: (id: Nullable<string>) => void;
+  onSortingOptionChange: (newSorting: Sorting) => void;
+  onActiveOfferChange: (id: Nullable<string>) => void;
   offers: Offers;
   cityName: string;
   activeOffer: Nullable<Offer>;
 };
 
 export function MainContent({
-  handleSortingOptionChange,
-  handleActiveOfferChange,
+  onSortingOptionChange,
+  onActiveOfferChange,
   offers,
   cityName,
   activeOffer
@@ -30,11 +30,11 @@ export function MainContent({
 
             <MemoizedSortOptions
               options={Object.values(Sorting)}
-              onSortingOptionChange={handleSortingOptionChange}
+              onSortingOptionChange={onSortingOptionChange}
             />
             <MemoizedCityPlaceCardList
               offers={offers}
-              onActiveItemChange={handleActiveOfferChange}
+              onActiveItemChange={onActiveOfferChange}
             />
           </section>
 

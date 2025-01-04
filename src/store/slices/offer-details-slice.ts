@@ -1,9 +1,9 @@
-import {OfferDetailsState} from '../../../types/state.ts';
-import {NameSpace} from '../../../consts.ts';
+import {OfferDetailsState} from '../../types/state.ts';
+import {NameSpace} from '../../consts.ts';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Comment, Comments} from '../../../types/comment.ts';
-import {Offers} from '../../../types/offer.ts';
-import {OfferDetails} from '../../../types/offer-details.ts';
+import {Comment, Comments} from '../../types/comment.ts';
+import {Offers} from '../../types/offer.ts';
+import {OfferDetails} from '../../types/offer-details.ts';
 
 const initialState: OfferDetailsState = {
   comments: [],

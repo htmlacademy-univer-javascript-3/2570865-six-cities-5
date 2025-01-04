@@ -1,4 +1,4 @@
-import {ChangeEvent, FormEvent, useState} from 'react';
+import {ChangeEvent, FormEvent, Fragment, useState} from 'react';
 import {useAppDispatch} from '../../hooks';
 import {sendCommentAction} from '../../store/api-actions.ts';
 
@@ -7,21 +7,26 @@ type CommentFormProps = {
 }
 
 export function CommentForm({offerId}: CommentFormProps) {
-  const [formData, setFormData] = useState({rating: 0, review: ''});
+  const [formData, setFormData] = useState({rating: '', review: ''});
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const dispatch = useAppDispatch();
 
-  function handleOnChangeForm(event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
+
+  function handleInputChange(event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
     const {name, value} = event.currentTarget;
     setFormData({...formData, [name]: value});
   }
 
-  function handleOnSubmit(event: FormEvent) {
+  function handleFormSubmit(event: FormEvent) {
     event.preventDefault();
 
     if (!formData.rating || !formData.review) {
       return;
     }
+
+    setIsFormSubmitting(true);
 
     const comment = {
       offerId: offerId,
@@ -29,15 +34,31 @@ export function CommentForm({offerId}: CommentFormProps) {
       rating: formData.rating,
     };
 
-    dispatch(sendCommentAction(comment));
+    dispatch(sendCommentAction(comment))
+      .unwrap()
+      .then(() => {
+        setErrorMessage('');
+        setFormData({review: '', rating: ''});
+      })
+      .catch(() => {
+        setErrorMessage('Error. Please try again');
+      })
+      .finally(() => {
+        setIsFormSubmitting(false);
+      });
   }
+
+  const rating = Number(formData.rating);
+
+  const isSubmitButtonActive = rating > 0 && formData.review.length >= 50 && formData.review.length <= 300
+    && !isFormSubmitting;
 
   return (
     <form
       className="reviews__form form"
       action="#"
       method="post"
-      onSubmit={handleOnSubmit}
+      onSubmit={handleFormSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
@@ -47,14 +68,18 @@ export function CommentForm({offerId}: CommentFormProps) {
       >
         {
           [5, 4, 3, 2, 1].map((stars) => (
-            <>
+            <Fragment
+              key={`${stars}-stars`}
+            >
               <input
                 className="form__rating-input visually-hidden"
                 name="rating"
-                defaultValue={stars}
+                value={stars}
                 id={`${stars}-stars`}
                 type="radio"
-                onChange={handleOnChangeForm}
+                checked={rating === stars}
+                onChange={handleInputChange}
+                disabled={isFormSubmitting}
               />
               <label
                 htmlFor={`${stars}-stars`}
@@ -65,7 +90,7 @@ export function CommentForm({offerId}: CommentFormProps) {
                   <use xlinkHref="#icon-star"/>
                 </svg>
               </label>
-            </>
+            </Fragment>
           ))
         }
       </div>
@@ -75,8 +100,9 @@ export function CommentForm({offerId}: CommentFormProps) {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={handleOnChangeForm}
+        onChange={handleInputChange}
         value={formData.review}
+        disabled={isFormSubmitting}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -87,11 +113,21 @@ export function CommentForm({offerId}: CommentFormProps) {
         </p>
         <button
           className="reviews__submit form__submit button"
+          disabled={!isSubmitButtonActive}
           type="submit"
         >
           Submit
         </button>
       </div>
+
+      {
+        errorMessage &&
+        <p
+          className="error"
+          style={{color: 'red'}}
+        >{errorMessage}
+        </p>
+      }
     </form>
   );
 }

@@ -2,7 +2,7 @@ import {memo, useCallback, useState} from 'react';
 import {Sorting} from '../../consts.ts';
 import {MemoizedSortOptionsItem} from './sort-options-item.tsx';
 import {useAppSelector} from '../../hooks';
-import {getSorting} from '../../store/selectors.ts';
+import {getSorting} from '../../store/selectors/offers-selectors.ts';
 
 type SortOptionsProps = {
   options: Sorting[];
@@ -14,11 +14,11 @@ export function SortOptions({options, onSortingOptionChange}: SortOptionsProps) 
 
   const sorting = useAppSelector(getSorting);
 
-  const handleSortingExpand = useCallback(() => {
+  const handleSortingExpandClick = useCallback(() => {
     setIsVisible((value) => !value);
   }, []);
 
-  const handleSortingOptionChange = useCallback((option: Sorting) => {
+  const handleSortingOptionClick = useCallback((option: Sorting) => {
     onSortingOptionChange(option);
     setIsVisible(false);
   }, [onSortingOptionChange]);
@@ -29,7 +29,7 @@ export function SortOptions({options, onSortingOptionChange}: SortOptionsProps) 
       <span
         className="places__sorting-type"
         tabIndex={0}
-        onClick={() => handleSortingExpand()}
+        onClick={handleSortingExpandClick}
       >
         {sorting}
         <svg className="places__sorting-arrow" width="7" height="4">
@@ -45,7 +45,7 @@ export function SortOptions({options, onSortingOptionChange}: SortOptionsProps) 
                 key={option}
                 option={option}
                 isActive={option === sorting}
-                onItemClick={handleSortingOptionChange}
+                onItemClick={handleSortingOptionClick}
               />
             ))
           }

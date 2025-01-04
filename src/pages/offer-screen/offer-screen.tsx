@@ -1,15 +1,16 @@
 import {CommentForm} from '../../components/comment-form/comment-form.tsx';
 import {useParams} from 'react-router-dom';
-import {MemoizedReviewsList} from '../../components/reviews/reviews-list.tsx';
+import {MemoizedReviewsList} from '../../components/reviews-list/reviews-list.tsx';
 import {MemoizedMap} from '../../components/map/map.tsx';
 import {MemoizedHeader} from '../../components/header/header.tsx';
 import {MemoizedNearPlaceCardList} from '../../components/place-card/place-card-list.tsx';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {fetchOfferDetailsAction} from '../../store/api-actions.ts';
 import {AuthorizationStatus, FavoriteType} from '../../consts.ts';
-import {getAuthorizationStatus, getComments, getNearbyOffers, getOfferDetails} from '../../store/selectors.ts';
 import {FavoriteButton} from '../../components/favorite-button/favorite-button.tsx';
 import {useEffect} from 'react';
+import {getAuthorizationStatus} from '../../store/selectors/user-selectors.ts';
+import {getComments, getNearbyOffers, getOfferDetails} from '../../store/selectors/offer-details-selectors.ts';
 
 
 export function OfferScreen() {
@@ -20,8 +21,9 @@ export function OfferScreen() {
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const offerDetails = useAppSelector(getOfferDetails);
-  const comments = useAppSelector(getComments);
-  let nearbyOffers = useAppSelector(getNearbyOffers);
+  let comments = useAppSelector(getComments);
+  let nearbyOffers = useAppSelector(getNearbyOffers)
+    .slice(0, 3);
 
   if (offerDetails) {
     const offer = {
@@ -29,7 +31,9 @@ export function OfferScreen() {
       previewImage: offerDetails.images[0]
     };
 
-    nearbyOffers = nearbyOffers.concat(offer);
+    if (!nearbyOffers.map((nearbyOffer) => nearbyOffer.id).includes(offerDetails.id)) {
+      nearbyOffers = nearbyOffers.concat(offer);
+    }
   }
 
   useEffect(() => {
@@ -43,9 +47,24 @@ export function OfferScreen() {
   }
 
   const city = offerDetails.city;
+  const capitalizedType = offerDetails.type[0].toUpperCase() + offerDetails.type.substring(1);
+  const bedroomsString = offerDetails.bedrooms > 1
+    ? 'Bedrooms'
+    : 'Bedroom';
+
+  const adultsString = offerDetails.maxAdults > 1
+    ? 'adults'
+    : 'adult';
+
+  const pro = offerDetails.host.isPro
+    ? '--pro'
+    : '';
+
+  comments = comments
+    .toSorted((a, b) => Date.parse(b.date) - Date.parse(a.date))
+    .slice(0, 10);
 
   return (
-
     <div className="page">
 
       <MemoizedHeader/>
@@ -55,7 +74,7 @@ export function OfferScreen() {
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
               {
-                offerDetails.images
+                offerDetails.images.slice(0, 6)
                   .map((imageSrc) => (
                     <div
                       key={imageSrc}
@@ -95,19 +114,19 @@ export function OfferScreen() {
 
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `${20 * offerDetails.rating}%`}}/>
+                  <span style={{width: `${20 * Math.round(offerDetails.rating)}%`}}/>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{offerDetails.rating}</span>
               </div>
 
               <ul className="offer__features">
-                <li className="offer__feature offer__feature--entire">{offerDetails.type}</li>
+                <li className="offer__feature offer__feature--entire">{capitalizedType}</li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {offerDetails.bedrooms} Bedrooms
+                  {offerDetails.bedrooms} {bedroomsString}
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {offerDetails.maxAdults} adults
+                  Max {offerDetails.maxAdults} {adultsString}
                 </li>
               </ul>
 
@@ -136,7 +155,7 @@ export function OfferScreen() {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                  <div className={`offer__avatar-wrapper offer__avatar-wrapper${pro} user__avatar-wrapper`}>
                     <img
                       className="offer__avatar user__avatar"
                       src={offerDetails.host.avatarUrl}
@@ -170,7 +189,7 @@ export function OfferScreen() {
                   authorizationStatus === AuthorizationStatus.Auth
                   &&
                   <CommentForm
-                    offerId={id ?? ''}
+                    offerId={offerDetails.id}
                   />
                 }
               </section>
@@ -194,7 +213,7 @@ export function OfferScreen() {
             </h2>
 
             <MemoizedNearPlaceCardList
-              offers={nearbyOffers}
+              offers={nearbyOffers.filter((o) => o.id !== offerDetails.id)}
             />
 
           </section>

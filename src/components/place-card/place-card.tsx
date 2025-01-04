@@ -43,6 +43,8 @@ export function PlaceCard({
     classNamePrefix = 'near-places';
   }
 
+  const capitalizedType = type[0].toUpperCase() + type.substring(1);
+
   return (
     <article
       className={`${classNamePrefix}__card place-card`}
@@ -82,14 +84,14 @@ export function PlaceCard({
 
           <div className="place-card__rating rating">
             <div className="place-card__stars rating__stars">
-              <span style={{width: `${20 * rating}%`}}></span>
+              <span style={{width: `${20 * Math.round(rating)}%`}}></span>
               <span className="visually-hidden">Rating</span>
             </div>
           </div>
           <h2 className="place-card__name">
             {title}
           </h2>
-          <p className="place-card__type">{type}</p>
+          <p className="place-card__type">{capitalizedType}</p>
         </div>
       </Link>
 
