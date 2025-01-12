@@ -1,14 +1,15 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {NameSpace, Sorting} from '../../consts.ts';
-import {Offers} from '../../types/offer.ts';
+import {Offer, Offers} from '../../types/offer.ts';
 import {OffersState} from '../../types/state.ts';
-import {FavoriteOfferData} from '../../types/favorite-offer-data.ts';
+import {toggleFavoriteStatusAction} from '../api-actions.ts';
 
 const initialState: OffersState = {
   offers: [],
   isOffersDataLoading: false,
   sorting: Sorting.Popular,
   favoriteOffers: [],
+  error: null,
 };
 
 export const offersSlice = createSlice({
@@ -27,23 +28,46 @@ export const offersSlice = createSlice({
     loadFavoriteOffers(state, action: PayloadAction<Offers>) {
       state.favoriteOffers = action.payload;
     },
-    toggleFavoriteOffer(state, action: PayloadAction<FavoriteOfferData>) {
-      const {offerId, status} = action.payload;
-      const offer = state.offers.find((o) => o.id === offerId);
+    addOfferToFavorites(state, action: PayloadAction<Offer>) {
+      const offer = action.payload;
 
-      if (!offer) {
-        return;
+      if (!state.favoriteOffers.find((o) => o.id === offer.id)) {
+        state.favoriteOffers.push(offer);
       }
-
-      offer.isFavorite = status === 1;
-    }
+    },
+    deleteOfferFromFavorites(state, action: PayloadAction<Offer>) {
+      state.favoriteOffers = state.favoriteOffers.filter((o) => o.id !== action.payload.id);
+    },
   },
+  extraReducers: ((builder) => {
+    builder
+      .addCase(toggleFavoriteStatusAction.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(toggleFavoriteStatusAction.rejected, (state, {error}) => {
+        if (error.message !== undefined) {
+          state.error = error.message;
+        } else {
+          state.error = null;
+        }
+      })
+      .addCase(toggleFavoriteStatusAction.fulfilled, (state, action) => {
+        const offer = state.offers.find((o) => o.id === action.payload.offerId);
+
+        if (!offer) {
+          return;
+        }
+
+        offer.isFavorite = action.payload.status === 1;
+      });
+  })
 });
 
 export const {
   loadOffers,
-  toggleFavoriteOffer,
+  addOfferToFavorites,
+  deleteOfferFromFavorites,
   setOffersDataLoadingStatus,
   applySorting,
-  loadFavoriteOffers
+  loadFavoriteOffers,
 } = offersSlice.actions;

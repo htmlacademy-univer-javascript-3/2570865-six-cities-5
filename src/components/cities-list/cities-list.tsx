@@ -1,5 +1,7 @@
 import {MemoizedCityItem} from './city-item.tsx';
 import {memo} from 'react';
+import {useAppSelector} from '../../hooks';
+import {getCurrentCityName} from '../../store/selectors/city-selectors.ts';
 
 type CitiesListProps = {
   cityNames: string[];
@@ -7,6 +9,8 @@ type CitiesListProps = {
 }
 
 export function CitiesList({cityNames, onCityClick}: CitiesListProps) {
+
+  const activeCity = useAppSelector(getCurrentCityName);
 
   return (
     <div className="tabs">
@@ -19,6 +23,7 @@ export function CitiesList({cityNames, onCityClick}: CitiesListProps) {
                   key={cityName}
                   name={cityName}
                   onCityClick={onCityClick}
+                  isActive={cityName === activeCity}
                 />
               ))
           }

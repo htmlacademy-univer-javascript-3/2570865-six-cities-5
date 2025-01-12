@@ -9,3 +9,5 @@ export const getOffers = (state: State): Offers => state[NameSpace.Offers].offer
 export const getFavoriteOffers = (state: State): Offers => state[NameSpace.Offers].favoriteOffers;
 
 export const getSorting = (state: State): Sorting => state[NameSpace.Offers].sorting;
+
+export const getError = (state: State): string | null => state[NameSpace.Offers].error;
