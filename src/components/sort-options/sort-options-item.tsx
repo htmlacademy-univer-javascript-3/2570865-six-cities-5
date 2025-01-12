@@ -8,13 +8,13 @@ type SortOptionsItemProps = {
 }
 
 export function SortOptionsItem({option, isActive, onItemClick}: SortOptionsItemProps) {
-  const className = isActive
+  const isActiveClassName = isActive
     ? 'places__option places__option--active'
     : 'places__option';
 
   return (
     <li
-      className={className}
+      className={isActiveClassName}
       tabIndex={0}
       onClick={() => onItemClick(option)}
     >

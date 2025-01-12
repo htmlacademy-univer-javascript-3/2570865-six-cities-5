@@ -11,7 +11,9 @@ import {Spinner} from '../spinner/spinner.tsx';
 import HistoryRouter from '../history-route/history-route.tsx';
 import browserHistory from '../../browser-history.ts';
 import {getAuthorizationStatus} from '../../store/selectors/user-selectors.ts';
-import {getIsOffersDataLoading} from '../../store/selectors/offers-selectors.ts';
+import {getError, getIsOffersDataLoading} from '../../store/selectors/offers-selectors.ts';
+import {useEffect} from 'react';
+import {toast} from 'react-toastify';
 
 type AppScreenProps = {
   cityNames: string[];
@@ -20,6 +22,12 @@ type AppScreenProps = {
 export function App({cityNames}: AppScreenProps) {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isOffersDataLoading = useAppSelector(getIsOffersDataLoading);
+
+  const error = useAppSelector(getError);
+
+  useEffect(() => {
+    toast.error(error);
+  }, [error]);
 
   if (isOffersDataLoading) {
     return (

@@ -1,40 +1,32 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch, State} from '../types/state.ts';
 import {AxiosInstance} from 'axios';
-import {APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR} from '../consts.ts';
+import {APIRoute, AppRoute, AuthorizationStatus} from '../consts.ts';
 import {Offer, Offers} from '../types/offer.ts';
-import {redirectToRoute, setError,} from './action.ts';
+import {redirectToRoute} from './action.ts';
 import {AuthData} from '../types/auth-data.ts';
 import {UserData} from '../types/user-data.ts';
 import {dropToken, saveToken} from '../api/token.ts';
-import {store} from './index.ts';
 import {Comment, Comments} from '../types/comment.ts';
 import {OfferDetails} from '../types/offer-details.ts';
 import {updateAuthorizationStatus, updateUserData} from './slices/user-slice.ts';
 import {
+  addOfferToFavorites,
+  deleteOfferFromFavorites,
   loadFavoriteOffers,
   loadOffers,
-  setOffersDataLoadingStatus,
-  toggleFavoriteOffer
+  setOffersDataLoadingStatus
 } from './slices/offers-slice.ts';
 import {
   loadNearbyOffers,
   loadOfferComments,
   loadOfferDetails,
-  sendComment, updateNearbyOffersFavorite, updateOfferDetailsFavoriteStatus
+  sendComment,
+  updateNearbyOffersFavorite,
+  updateOfferDetailsFavoriteStatus
 } from './slices/offer-details-slice.ts';
 import {FavoriteOfferData} from '../types/favorite-offer-data.ts';
 
-
-export const clearErrorAction = createAsyncThunk(
-  'app/clearError',
-  () => {
-    setTimeout(
-      () => store.dispatch(setError(null)),
-      TIMEOUT_SHOW_ERROR,
-    );
-  },
-);
 
 export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -48,7 +40,7 @@ export const fetchFavoriteOffersAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const toggleFavoriteStatusAction = createAsyncThunk<void, FavoriteOfferData, {
+export const toggleFavoriteStatusAction = createAsyncThunk<FavoriteOfferData, FavoriteOfferData, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
@@ -58,12 +50,16 @@ export const toggleFavoriteStatusAction = createAsyncThunk<void, FavoriteOfferDa
     const url = `${APIRoute.Favorite}/${offerId}/${status}`;
     const {data} = await api.post<Offer>(url);
 
-    const actualStatus = data.isFavorite ? 1 : 0;
+    if (status === 0) {
+      dispatch(deleteOfferFromFavorites(data));
+    } else {
+      dispatch(addOfferToFavorites(data));
+    }
 
-    dispatch(toggleFavoriteOffer({offerId: data.id, status: actualStatus}));
-    dispatch(updateOfferDetailsFavoriteStatus({offerId: data.id, status: actualStatus}));
-    dispatch(updateNearbyOffersFavorite({offerId: data.id, status: actualStatus}));
-    dispatch(fetchFavoriteOffersAction());
+    dispatch(updateOfferDetailsFavoriteStatus({offerId: data.id, status: status}));
+    dispatch(updateNearbyOffersFavorite({offerId: data.id, status: status}));
+
+    return {offerId: data.id, status: status};
   },
 );
 
@@ -112,6 +108,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     dispatch(updateAuthorizationStatus(AuthorizationStatus.Auth));
     dispatch(updateUserData(userData));
     dispatch(fetchFavoriteOffersAction());
+    dispatch(fetchOffersAction());
     dispatch(redirectToRoute(AppRoute.Main));
   },
 );
@@ -128,6 +125,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     dispatch(updateAuthorizationStatus(AuthorizationStatus.NoAuth));
     dispatch(updateUserData(null));
     dispatch(loadFavoriteOffers([]));
+    dispatch(fetchOffersAction());
   },
 );
 

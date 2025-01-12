@@ -23,6 +23,7 @@ export type OffersState = {
   isOffersDataLoading: boolean;
   sorting: Sorting;
   favoriteOffers: Offers;
+  error: string | null;
 }
 
 export type OfferDetailsState = {

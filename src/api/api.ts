@@ -1,7 +1,6 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
 import {getToken} from './token.ts';
 import {StatusCodes} from 'http-status-codes';
-import {processErrorHandle} from './process-error-handle.ts';
 import {ApiConfig} from '../consts.ts';
 
 type DetailMessageType = {
@@ -12,7 +11,8 @@ type DetailMessageType = {
 const statusCodeMapping: Record<number, boolean> = {
   [StatusCodes.BAD_REQUEST]: true,
   [StatusCodes.UNAUTHORIZED]: true,
-  [StatusCodes.NOT_FOUND]: true
+  [StatusCodes.NOT_FOUND]: true,
+  [StatusCodes.CONFLICT]: true,
 };
 
 const shouldDisplayError = (response: AxiosResponse) => !!statusCodeMapping[response.status];
@@ -40,8 +40,7 @@ export const createAPI = (): AxiosInstance => {
     (error: AxiosError<DetailMessageType>) => {
       if (error.response && shouldDisplayError(error.response)) {
         const detailMessage = (error.response.data);
-
-        processErrorHandle(detailMessage.message);
+        error.message = detailMessage.message;
       }
 
       throw error;
